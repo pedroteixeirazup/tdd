@@ -25,7 +25,7 @@ public class TesteDoAvaliador {
         //parte 02: acao.
         Avaliador leiloeiro = new Avaliador();
         leiloeiro.avalia(leilao);
-        //
+        
         //parte 03: validacao.
         double maiorEsperado = 400;
         double menorEsperado = 250;
