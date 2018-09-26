@@ -25,16 +25,18 @@ public class TesteDoAvaliador {
         //parte 02: acao.
         Avaliador leiloeiro = new Avaliador();
         leiloeiro.avalia(leilao);
-        
+
         //parte 03: validacao.
         double maiorEsperado = 400;
         double menorEsperado = 250;
         double avgEsperado = 333.3333333333333;
-        System.out.println(maiorEsperado == leiloeiro.getMaiorLance());
-        Assert.assertEquals(maiorEsperado,leiloeiro.getMaiorLance(),0.00001);
-        System.out.println(menorEsperado == leiloeiro.getMenorLance());
-        Assert.assertEquals(menorEsperado,leiloeiro.getMenorLance(),0.00001);
-        Assert.assertEquals(avgEsperado,leiloeiro.getMediaLances(),0.00001);
-        System.out.println(avgEsperado == leiloeiro.getMediaLances());
+//        System.out.println(maiorEsperado == leiloeiro.getMaiorLance());
+//        Assert.assertEquals(maiorEsperado,leiloeiro.getMaiorLance(),0.00001);
+//        System.out.println(menorEsperado == leiloeiro.getMenorLance());
+//        Assert.assertEquals(menorEsperado,leiloeiro.getMenorLance(),0.00001);
+//        Assert.assertEquals(avgEsperado,leiloeiro.getMediaLances(),0.00001);
+//        System.out.println(avgEsperado == leiloeiro.getMediaLances());
+
+
     }
 }
