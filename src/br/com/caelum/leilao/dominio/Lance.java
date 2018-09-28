@@ -4,12 +4,12 @@ public class Lance {
 
 	private Usuario usuario;
 	private double valor;
-	
+
 	public Lance(Usuario usuario, double valor) {
+		if(valor<=0) throw new IllegalArgumentException();
 		this.usuario = usuario;
 		this.valor = valor;
 	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}

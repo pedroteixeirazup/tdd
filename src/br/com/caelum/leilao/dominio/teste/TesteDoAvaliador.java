@@ -12,7 +12,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class TesteDoAvaliador {
 
@@ -34,6 +36,14 @@ public class TesteDoAvaliador {
     @After
     public void finaliza() {
         System.out.println("fim");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void naoDeveAvaliarNenhumLeilaSemLanceDado(){
+
+            Leilao leilao = new CriadorDeLeilao().para("Playstation 3 Novo").constroi();
+            leiloeiro.avalia(leilao);
+
     }
 
     @Test
@@ -145,6 +155,7 @@ public class TesteDoAvaliador {
         List<Lance> maiores =  leiloeiro.getTresMaiores();
         assertEquals(400.0,leiloeiro.getMaiorLance(),0.00001);
         assertEquals(100.0,leiloeiro.getMenorLance(),0.00001);
+       // assertThat(leiloeiro.getMenorLance(),equalTo(100.0));
     }
    
 
