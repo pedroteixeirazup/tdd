@@ -3,109 +3,83 @@ package br.com.caelum.leilao.dominio.teste;
 import br.com.caelum.leilao.dominio.Lance;
 import br.com.caelum.leilao.dominio.Leilao;
 import br.com.caelum.leilao.dominio.Usuario;
+import br.com.caelum.leilao.dominio.builder.CriadorDeLeilao;
 import br.com.caelum.leilao.dominio.servico.AnoBissexto;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class LeilaoTest {
-    @Test
-    public void deveReceberUmLance(){
-        Leilao leilao = new Leilao("MacBoook Pro 15");
-        assertEquals(0,leilao.getLances().size());
 
-        leilao.propoe(new Lance(new Usuario("Steve Jobs"),2000));
-
-        assertEquals(1,leilao.getLances().size());
-
-        assertEquals(2000.0,leilao.getLances().get(0).getValor(),0.00001);
+    @BeforeClass
+    public static void testandoBeforeClass() {
+        System.out.println("before class");
     }
 
-    @Test
-    public void deveRecbeVariosLances(){
-        Leilao leilao = new Leilao("MacBoook Pro 15");
-        leilao.propoe(new Lance(new Usuario("Steve Jobs"),2000));
-        leilao.propoe(new Lance(new Usuario("Steve Wozniak"),3000));
-
-        assertEquals(2,leilao.getLances().size());
-        assertEquals(2000.0,leilao.getLances().get(0).getValor(),0.00001);
-        assertEquals(3000.0,leilao.getLances().get(1).getValor(),0.00001);
-    }
-
-    @Test
-    public void naoDeveAceitarDoisLancesSeguidos(){
-        Leilao leilao = new Leilao("MacBoook Pro 15");
-        Usuario steveJobs = new Usuario("Steve Jobs");
-
-        leilao.propoe(new Lance(steveJobs,2000));
-        leilao.propoe(new Lance(steveJobs,3000));
-
-        assertEquals(1,leilao.getLances().size());
-        assertEquals(2000.0,leilao.getLances().get(0).getValor(),0.00001);
-    }
-
-    @Test
-    public void naoDeveAceitarMaisDoQue5LancesDeUmUsuario(){
-        Leilao leilao = new Leilao("MacBoook Pro 15");
-        Usuario steveJobs = new Usuario("Steve Jobs");
-        Usuario billGates = new Usuario("Bill Gates");
-
-        leilao.propoe(new Lance(steveJobs,2000));
-        leilao.propoe(new Lance(billGates,3000));
-
-        leilao.propoe(new Lance(steveJobs,4000));
-        leilao.propoe(new Lance(billGates,5000));
-
-        leilao.propoe(new Lance(steveJobs,6000));
-        leilao.propoe(new Lance(billGates,7000));
-
-        leilao.propoe(new Lance(steveJobs,8000));
-        leilao.propoe(new Lance(billGates,9000));
-
-        leilao.propoe(new Lance(steveJobs,10000));
-        leilao.propoe(new Lance(billGates,11000));
-
-        //deve ser igorado
-        leilao.propoe(new Lance(steveJobs,12000));
-        assertEquals(10,leilao.getLances().size());
-        assertEquals(11000.0,leilao.getLances().get(leilao.getLances().size()-1).getValor(),0.00001);
-    }
-
-    @Test
-    public void deveDobrarOUltimoLanceDado() {
-        Leilao leilao = new Leilao("Macbook Pro 15");
-        Usuario steveJobs = new Usuario("Steve Jobs");
-        Usuario billGates = new Usuario("Bill Gates");
-
-        leilao.propoe(new Lance(steveJobs, 2000));
-        leilao.propoe(new Lance(billGates, 3000));
-        leilao.dobraLance(steveJobs);
-
-        assertEquals(4000, leilao.getLances().get(2).getValor(), 0.00001);
+    @AfterClass
+    public static void testandoAfterClass() {
+        System.out.println("after class");
     }
     @Test
-    public void naoDeveDobrarCasoNaoHajaLanceAnterior() {
-        Leilao leilao = new Leilao("Macbook Pro 15");
-        Usuario steveJobs = new Usuario("Steve Jobs");
-
-        leilao.dobraLance(steveJobs);
-
+    public void deveReceberUmLance() {
+        Leilao leilao = new CriadorDeLeilao().para("Macbook Pro 15").constroi();
         assertEquals(0, leilao.getLances().size());
+
+        leilao.propoe(new Lance(new Usuario("Steve Jobs"), 2000));
+
+        assertEquals(1, leilao.getLances().size());
+        assertEquals(2000.0, leilao.getLances().get(0).getValor(), 0.00001);
     }
 
     @Test
-    public void deveRetornarAnoBissexto() {
-        AnoBissexto anoBissexto = new AnoBissexto();
+    public void deveReceberVariosLances() {
+        Leilao leilao = new CriadorDeLeilao()
+                .para("Macbook Pro 15")
+                .lance(new Usuario("Steve Jobs"), 2000)
+                .lance(new Usuario("Steve Wozniak"), 3000)
+                .constroi();
 
-        assertEquals(true, anoBissexto.getAnoBissexto(2016));
-        assertEquals(true, anoBissexto.getAnoBissexto(2012));
+        assertEquals(2, leilao.getLances().size());
+        assertEquals(2000.0, leilao.getLances().get(0).getValor(), 0.00001);
+        assertEquals(3000.0, leilao.getLances().get(1).getValor(), 0.00001);
     }
 
     @Test
-    public void naoDeveRetornarAnoBissexto() {
-        AnoBissexto anoBissexto = new AnoBissexto();
+    public void naoDeveAceitarDoisLancesSeguidosDoMesmoUsuario() {
+        Usuario steveJobs = new Usuario("Steve Jobs");
+        Leilao leilao = new CriadorDeLeilao()
+                .para("Macbook Pro 15")
+                .lance(steveJobs, 2000.0)
+                .lance(steveJobs, 3000.0)
+                .constroi();
 
-        assertEquals(false, anoBissexto.getAnoBissexto(2015));
-        assertEquals(false, anoBissexto.getAnoBissexto(2011));
+        assertEquals(1, leilao.getLances().size());
+        assertEquals(2000.0, leilao.getLances().get(0).getValor(), 0.00001);
+    }
+
+    @Test
+    public void naoDeveAceitarMaisDoQue5LancesDeUmMesmoUsuario() {
+        Usuario steveJobs = new Usuario("Steve Jobs");
+        Usuario billGates = new Usuario("Bill Gates");
+
+        Leilao leilao = new CriadorDeLeilao().para("Macbook Pro 15")
+                .lance(steveJobs, 2000)
+                .lance(billGates, 3000)
+                .lance(steveJobs, 4000)
+                .lance(billGates, 5000)
+                .lance(steveJobs, 6000)
+                .lance(billGates, 7000)
+                .lance(steveJobs, 8000)
+                .lance(billGates, 9000)
+                .lance(steveJobs, 10000)
+                .lance(billGates, 11000)
+                .lance(steveJobs, 12000)
+                .constroi();
+
+        assertEquals(10, leilao.getLances().size());
+        int ultimo = leilao.getLances().size()-1;
+        assertEquals(11000.0, leilao.getLances().get(ultimo).getValor(), 0.00001);
     }
 }

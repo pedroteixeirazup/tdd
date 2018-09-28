@@ -5,6 +5,7 @@ import br.com.caelum.leilao.dominio.Leilao;
 import br.com.caelum.leilao.dominio.Usuario;
 import br.com.caelum.leilao.dominio.builder.CriadorDeLeilao;
 import br.com.caelum.leilao.dominio.servico.Avaliador;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,10 @@ public class TesteDoAvaliador {
         System.out.println("cria Avaliador.");
     }
 
+    @After
+    public void finaliza() {
+        System.out.println("fim");
+    }
 
     @Test
     public  void deveEntenderLancesEmOrdemCrescenteComOutrosValores() {
@@ -49,8 +54,8 @@ public class TesteDoAvaliador {
         leiloeiro.avalia(leilao);
 
         //parte 03: validacao.
-        double maiorEsperado = 3000;
-        double menorEsperado = 1000;
+        double maiorEsperado = 400;
+        double menorEsperado = 100;
        // double avgEsperado = 333.3333333333333;
 //        System.out.println(maiorEsperado == leiloeiro.getMaiorLance());
         assertEquals(maiorEsperado,leiloeiro.getMaiorLance(),0.00001);
@@ -172,4 +177,5 @@ public class TesteDoAvaliador {
 
         assertEquals(0, maiores.size());
     }
+
 }
