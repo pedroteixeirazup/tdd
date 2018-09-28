@@ -30,13 +30,11 @@ public class TesteDoAvaliador {
         System.out.println("cria Avaliador.");
     }
 
-<<<<<<< HEAD
+
     @After
     public void finaliza() {
         System.out.println("fim");
     }
-=======
->>>>>>> 6811944d141b532717d4afe2b77818e6bff5b508
 
     @Test
     public  void deveEntenderLancesEmOrdemCrescenteComOutrosValores() {
